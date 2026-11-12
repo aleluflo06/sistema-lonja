@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= locals.titulo ? titulo + ' | ' : '' %>Lonja Veracruz</title>
+  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/inicio">Lonja Veracruz</a>
+    <% if (locals.usuario) { %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Menú">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Compras</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/compras">Lista</a></li>
+            <li><a class="dropdown-item" href="/compras/crear">Registrar compra</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Catálogos</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/lotes">Lotes</a></li>
+            <li><a class="dropdown-item" href="/especies">Especies</a></li>
+            <li><a class="dropdown-item" href="/tipos">Tipos</a></li>
+            <li><a class="dropdown-item" href="/compradores">Compradores</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="/reportes/diario">Reporte diario</a></li>
+        <% if (usuario.rol === 'admin') { %>
+        <li class="nav-item"><a class="nav-link" href="/usuarios">Usuarios</a></li>
+        <% } %>
+      </ul>
+      <span class="navbar-text me-3"><%= usuario.nombre %> (<%= usuario.rol %>)</span>
+      <a class="btn btn-outline-light btn-sm" href="/cerrarsesion">Cerrar sesión</a>
+    </div>
+    <% } %>
+  </div>
+</nav>
+<main class="container py-4">

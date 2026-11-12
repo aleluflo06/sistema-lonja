@@ -1,0 +1,35 @@
+<%- include('../plantillas/header') %>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">Compras</h1>
+  <a class="btn btn-primary" href="/compras/crear">Registrar compra</a>
+</div>
+<% if (mensaje) { %><div class="alert alert-success"><%= mensaje %></div><% } %>
+<% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+<div class="table-responsive">
+<table class="table table-striped align-middle bg-white shadow-sm">
+  <thead class="table-light">
+    <tr><th>Compra</th><th>Fecha</th><th>Comprador</th><th>Kilos</th><th>Precio final/kg</th><th>Total</th><th></th></tr>
+  </thead>
+  <tbody>
+  <% compras.forEach(c => { %>
+    <tr>
+      <td>#<%= c.id_cmp %></td>
+      <td><%= aVista(c.fecha) %></td>
+      <td><%= c.comprador.nombre %> <%= c.comprador.apellido_paterno %></td>
+      <td><%= c.lote.kilos %></td>
+      <td><%= dinero(c.precio_kilo_final) %></td>
+      <td><%= dinero(c.precio_total) %></td>
+      <td>
+        <% if (usuario.rol === 'admin') { %>
+        <form action="/compras/<%= c.id_cmp %>?_method=DELETE" method="POST" onsubmit="return confirm('¿Eliminar esta compra?')">
+          <button class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
+        </form>
+        <% } %>
+      </td>
+    </tr>
+  <% }) %>
+  <% if (!compras.length) { %><tr><td colspan="7" class="text-center text-muted">Sin compras</td></tr><% } %>
+  </tbody>
+</table>
+</div>
+<%- include('../plantillas/footer') %>

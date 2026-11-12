@@ -1,0 +1,48 @@
+<%- include('../plantillas/header') %>
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+  <h1 class="h3 mb-0">Reporte diario de compras</h1>
+  <form class="d-flex gap-2 d-print-none" action="/reportes/diario" method="GET">
+    <input type="date" class="form-control" name="fecha" value="<%= fecha %>" required>
+    <button class="btn btn-primary" type="submit">Ver</button>
+    <button class="btn btn-outline-secondary" type="button" onclick="window.print()">Imprimir</button>
+  </form>
+</div>
+<p class="text-muted">Fecha: <strong><%= fecha %></strong></p>
+<div class="row g-3 mb-4">
+  <div class="col-md-4"><div class="card"><div class="card-body"><div class="text-muted">Compras</div><div class="fs-3"><%= compras.length %></div></div></div></div>
+  <div class="col-md-4"><div class="card"><div class="card-body"><div class="text-muted">Kilos comprados</div><div class="fs-3"><%= totalKilos.toFixed(2) %></div></div></div></div>
+  <div class="col-md-4"><div class="card"><div class="card-body"><div class="text-muted">Importe total</div><div class="fs-3"><%= dinero(totalImporte) %></div></div></div></div>
+</div>
+<div class="table-responsive">
+<table class="table table-striped align-middle bg-white shadow-sm">
+  <thead class="table-light">
+    <tr><th>Hora</th><th>Comprador</th><th>Lote</th><th>Especies</th><th>Kilos</th><th>Precio final/kg</th><th>Total</th></tr>
+  </thead>
+  <tbody>
+  <% compras.forEach(c => { %>
+    <tr>
+      <td><%= aVista(c.fecha) %></td>
+      <td><%= c.comprador.nombre %> <%= c.comprador.apellido_paterno %></td>
+      <td>#<%= c.id_cmp %></td>
+      <td><%= c.lote.especies.map(e => e.nombre).join(', ') %></td>
+      <td><%= c.lote.kilos %></td>
+      <td><%= dinero(c.precio_kilo_final) %></td>
+      <td><%= dinero(c.precio_total) %></td>
+    </tr>
+  <% }) %>
+  <% if (!compras.length) { %><tr><td colspan="7" class="text-center text-muted">No hay compras en esta fecha</td></tr><% } %>
+  </tbody>
+</table>
+</div>
+<% if (resumen.length) { %>
+<h2 class="h5 mt-4">Resumen por comprador</h2>
+<table class="table table-sm bg-white shadow-sm" style="max-width:640px">
+  <thead class="table-light"><tr><th>Comprador</th><th>Compras</th><th>Kilos</th><th>Importe</th></tr></thead>
+  <tbody>
+  <% resumen.forEach(r => { %>
+    <tr><td><%= r.nombre %></td><td><%= r.compras %></td><td><%= r.kilos.toFixed(2) %></td><td><%= dinero(r.importe) %></td></tr>
+  <% }) %>
+  </tbody>
+</table>
+<% } %>
+<%- include('../plantillas/footer') %>

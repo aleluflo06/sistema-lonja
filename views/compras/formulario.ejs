@@ -1,0 +1,61 @@
+<%- include('../plantillas/header') %>
+<h1 class="h3 mb-3">Registrar compra</h1>
+<% if (errores.length) { %>
+<div class="alert alert-danger"><ul class="mb-0"><% errores.forEach(e => { %><li><%= e %></li><% }) %></ul></div>
+<% } %>
+<% if (!lotes.length) { %><div class="alert alert-warning">No hay lotes disponibles. Primero registra un lote.</div><% } %>
+<form action="/compras" method="POST" class="card card-body shadow-sm" style="max-width:640px">
+  <div class="mb-3">
+    <label class="form-label" for="id_cmp">Lote</label>
+    <select class="form-select" id="id_cmp" name="id_cmp" required>
+      <option value="">-- Selecciona --</option>
+      <% lotes.forEach(l => { %>
+        <option value="<%= l.id_lte %>" data-kilos="<%= l.kilos %>" data-salida="<%= l.precio_kilo_salida %>"
+          <%= String(registro.id_cmp) === String(l.id_lte) ? 'selected' : '' %>>
+          Lote #<%= l.id_lte %> — <%= l.kilos %> kg — <%= l.especies.map(e => e.nombre).join(', ') || 'sin especies' %>
+        </option>
+      <% }) %>
+    </select>
+    <div class="form-text" id="salida"></div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="codigo_cpr">Comprador</label>
+    <select class="form-select" id="codigo_cpr" name="codigo_cpr" required>
+      <option value="">-- Selecciona --</option>
+      <% compradores.forEach(c => { %>
+        <option value="<%= c.codigo_cpr %>" <%= String(registro.codigo_cpr) === String(c.codigo_cpr) ? 'selected' : '' %>>
+          <%= c.nombre %> <%= c.apellido_paterno %> <%= c.apellido_materno || '' %>
+        </option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="precio_kilo_final">Precio por kilo final</label>
+    <input type="number" step="0.01" min="0.01" class="form-control" id="precio_kilo_final" name="precio_kilo_final"
+           value="<%= registro.precio_kilo_final || '' %>" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="fecha">Fecha y hora</label>
+    <input type="datetime-local" class="form-control" id="fecha" name="fecha" value="<%= aInput(registro.fecha) %>" required>
+  </div>
+  <p>Total estimado: <strong id="total">$0.00</strong></p>
+  <div>
+    <button class="btn btn-primary" type="submit" <%= lotes.length ? '' : 'disabled' %>>Guardar compra</button>
+    <a class="btn btn-outline-secondary" href="/compras">Cancelar</a>
+  </div>
+</form>
+<script>
+  const lote = document.getElementById('id_cmp');
+  const precio = document.getElementById('precio_kilo_final');
+  function calcular() {
+    const op = lote.options[lote.selectedIndex];
+    const kilos = parseFloat(op?.dataset.kilos || 0);
+    const p = parseFloat(precio.value || 0);
+    document.getElementById('total').textContent = (kilos * p).toLocaleString('es-MX', { style: 'currency', currency: 'MXN' });
+    document.getElementById('salida').textContent = op?.dataset.salida ? 'Precio por kilo de salida: $' + op.dataset.salida : '';
+  }
+  lote.addEventListener('change', calcular);
+  precio.addEventListener('input', calcular);
+  calcular();
+</script>
+<%- include('../plantillas/footer') %>

@@ -1,0 +1,26 @@
+<%- include('../plantillas/publico_header') %>
+<h1 class="h3 text-center mb-3">Registro</h1>
+<% if (errores.length) { %>
+<div class="alert alert-danger"><ul class="mb-0"><% errores.forEach(e => { %><li><%= e %></li><% }) %></ul></div>
+<% } %>
+<form action="/registrar_login" method="POST">
+  <div class="mb-3">
+    <label class="form-label" for="nombre">Nombre</label>
+    <input type="text" class="form-control" id="nombre" name="nombre" maxlength="60" value="<%= persona ? persona.nombre : '' %>" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="email">Correo</label>
+    <input type="email" class="form-control" id="email" name="email" maxlength="80" value="<%= persona ? persona.email : '' %>" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="password">Password (mínimo 8 caracteres)</label>
+    <input type="password" class="form-control" id="password" name="password" minlength="8" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="password2">Repite el password</label>
+    <input type="password" class="form-control" id="password2" name="password2" minlength="8" required>
+  </div>
+  <button class="btn btn-primary" type="submit">Guardar</button>
+  <a class="btn btn-outline-secondary" href="/">Cancelar</a>
+</form>
+<%- include('../plantillas/publico_footer') %>

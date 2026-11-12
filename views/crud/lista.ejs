@@ -1,0 +1,42 @@
+<%- include('../plantillas/header') %>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0"><%= cfg.titulo %></h1>
+  <a class="btn btn-primary" href="/<%= cfg.ruta %>/crear">Nuevo <%= cfg.singular %></a>
+</div>
+<% if (mensaje) { %><div class="alert alert-success"><%= mensaje %></div><% } %>
+<% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+<div class="table-responsive">
+<table class="table table-striped table-hover align-middle bg-white shadow-sm">
+  <thead class="table-light">
+    <tr><% cfg.columnas.forEach(c => { %><th><%= c.label %></th><% }) %><th>Acciones</th></tr>
+  </thead>
+  <tbody>
+  <% registros.forEach(r => { %>
+    <tr>
+      <% cfg.columnas.forEach(c => { const v = c.val(r); %>
+        <td>
+          <% if (c.tipo === 'img') { %>
+            <% if (v) { %><img src="<%= v %>" height="40" class="rounded" alt=""><% } %>
+          <% } else { %><%= v %><% } %>
+        </td>
+      <% }) %>
+      <td class="text-nowrap">
+        <% if (!cfg.puedeEditar || cfg.puedeEditar(r)) { %>
+        <a class="btn btn-sm btn-outline-primary" href="/<%= cfg.ruta %>/<%= r[cfg.pk] %>/editar">Editar</a>
+        <% } %>
+        <% if (usuario.rol === 'admin') { %>
+        <form action="/<%= cfg.ruta %>/<%= r[cfg.pk] %>?_method=DELETE" method="POST" class="d-inline"
+              onsubmit="return confirm('¿Eliminar este registro?')">
+          <button class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
+        </form>
+        <% } %>
+      </td>
+    </tr>
+  <% }) %>
+  <% if (!registros.length) { %>
+    <tr><td colspan="<%= cfg.columnas.length + 1 %>" class="text-center text-muted">Sin registros</td></tr>
+  <% } %>
+  </tbody>
+</table>
+</div>
+<%- include('../plantillas/footer') %>

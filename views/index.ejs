@@ -1,0 +1,13 @@
+<%- include('plantillas/header') %>
+<h1 class="h3 mb-4">Panel principal</h1>
+<div class="row g-3 mb-4">
+  <div class="col-md-4"><div class="card shadow-sm"><div class="card-body">
+    <div class="text-muted">Compras de hoy</div><div class="fs-2"><%= numCompras %></div></div></div></div>
+  <div class="col-md-4"><div class="card shadow-sm"><div class="card-body">
+    <div class="text-muted">Importe de hoy</div><div class="fs-2"><%= dinero(totalHoy) %></div></div></div></div>
+  <div class="col-md-4"><div class="card shadow-sm"><div class="card-body">
+    <div class="text-muted">Lotes disponibles</div><div class="fs-2"><%= lotesDisponibles %></div></div></div></div>
+</div>
+<a class="btn btn-primary" href="/compras/crear">Registrar compra</a>
+<a class="btn btn-outline-primary" href="/reportes/diario">Ver reporte diario</a>
+<%- include('plantillas/footer') %>

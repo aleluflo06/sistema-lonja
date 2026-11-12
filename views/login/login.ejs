@@ -1,0 +1,22 @@
+<%- include('../plantillas/publico_header') %>
+<h1 class="h3 text-center">Lonja Veracruz</h1>
+<p class="text-center text-muted">Inicia sesión</p>
+<% if (mensaje) { %>
+<div class="alert alert-danger">
+  <strong><%= mensaje %></strong>
+  <ul class="mb-0"><% errores.forEach(e => { %><li><%= e.msg %></li><% }) %></ul>
+</div>
+<% } %>
+<form action="/credenciales" method="POST">
+  <div class="mb-3">
+    <label for="email" class="form-label">Correo</label>
+    <input type="email" class="form-control" id="email" name="email" required>
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <input type="password" class="form-control" id="password" name="password" required>
+  </div>
+  <button class="btn btn-primary" type="submit">Entrar</button>
+  <a class="btn btn-outline-success" href="/ver_registro">Registrarme</a>
+</form>
+<%- include('../plantillas/publico_footer') %>

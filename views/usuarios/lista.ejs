@@ -1,0 +1,29 @@
+<%- include('../plantillas/header') %>
+<h1 class="h3 mb-3">Usuarios</h1>
+<% if (mensaje) { %><div class="alert alert-success"><%= mensaje %></div><% } %>
+<% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+<div class="table-responsive">
+<table class="table table-striped align-middle bg-white shadow-sm">
+  <thead class="table-light"><tr><th>ID</th><th>Nombre</th><th>Correo</th><th>Rol</th><th>Correo confirmado</th><th>Autorizado</th><th>Acciones</th></tr></thead>
+  <tbody>
+  <% usuarios.forEach(u => { %>
+    <tr>
+      <td><%= u.id %></td><td><%= u.nombre %></td><td><%= u.email %></td><td><%= u.rol %></td>
+      <td><%= u.confirmar ? 'Sí' : 'No' %></td>
+      <td><span class="badge <%= u.autorizado ? 'text-bg-success' : 'text-bg-secondary' %>"><%= u.autorizado ? 'Sí' : 'No' %></span></td>
+      <td class="text-nowrap">
+        <% if (u.id !== usuario.id) { %>
+        <form action="/usuarios/<%= u.id %>/autorizar?_method=PUT" method="POST" class="d-inline">
+          <button class="btn btn-sm btn-outline-primary" type="submit"><%= u.autorizado ? 'Revocar' : 'Autorizar' %></button>
+        </form>
+        <form action="/usuarios/<%= u.id %>?_method=DELETE" method="POST" class="d-inline" onsubmit="return confirm('¿Eliminar este usuario?')">
+          <button class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
+        </form>
+        <% } %>
+      </td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
+</div>
+<%- include('../plantillas/footer') %>

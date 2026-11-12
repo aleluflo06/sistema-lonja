@@ -1,0 +1,38 @@
+<%- include('../plantillas/header') %>
+<% const editando = !!registro[cfg.pk]; %>
+<h1 class="h3 mb-3"><%= editando ? 'Editar' : 'Nuevo' %> <%= cfg.singular %></h1>
+<% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+<% if (errores.length) { %>
+<div class="alert alert-danger"><ul class="mb-0"><% errores.forEach(e => { %><li><%= e %></li><% }) %></ul></div>
+<% } %>
+<form action="<%= action %>" method="POST" enctype="multipart/form-data" class="card card-body shadow-sm" style="max-width:640px">
+  <% cfg.campos.forEach(c => { const val = registro[c.name] ?? ''; %>
+  <div class="mb-3">
+    <label class="form-label" for="<%= c.name %>"><%= c.label %></label>
+    <% if (c.type === 'select') { %>
+      <select class="form-select" id="<%= c.name %>" name="<%= c.name %>" <%= c.required ? 'required' : '' %>>
+        <option value="">-- Selecciona --</option>
+        <% opciones[c.name].forEach(o => { %>
+          <option value="<%= o.value %>" <%= String(val) === String(o.value) ? 'selected' : '' %>><%= o.label %></option>
+        <% }) %>
+      </select>
+    <% } else if (c.type === 'file') { %>
+      <input type="file" class="form-control" id="<%= c.name %>" name="<%= c.name %>" accept="image/*">
+      <% if (val) { %><img src="<%= val %>" height="60" class="mt-2 rounded" alt=""><% } %>
+    <% } else if (c.type === 'datetime-local') { %>
+      <input type="datetime-local" class="form-control" id="<%= c.name %>" name="<%= c.name %>" value="<%= aInput(val) %>" <%= c.required ? 'required' : '' %>>
+    <% } else if (c.type === 'number') { %>
+      <input type="number" class="form-control" id="<%= c.name %>" name="<%= c.name %>" value="<%= val %>"
+             step="<%= c.entero ? 1 : 0.01 %>" min="<%= c.min ?? 0 %>" <%= c.required ? 'required' : '' %>>
+    <% } else { %>
+      <input type="<%= c.type %>" class="form-control" id="<%= c.name %>" name="<%= c.name %>" value="<%= val %>"
+             <%= c.max ? 'maxlength=' + c.max : '' %> <%= c.required ? 'required' : '' %>>
+    <% } %>
+  </div>
+  <% }) %>
+  <div>
+    <button class="btn btn-primary" type="submit">Guardar</button>
+    <a class="btn btn-outline-secondary" href="/<%= cfg.ruta %>">Cancelar</a>
+  </div>
+</form>
+<%- include('../plantillas/footer') %>

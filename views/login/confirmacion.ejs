@@ -1,0 +1,5 @@
+<%- include('../plantillas/publico_header') %>
+<h1 class="h4 text-center"><%= pagina %></h1>
+<div class="alert alert-primary" role="alert"><%= mensaje %></div>
+<% if (locals.enlace) { %><a class="btn btn-primary" href="<%= enlace %>">Ir al login</a><% } %>
+<%- include('../plantillas/publico_footer') %>
