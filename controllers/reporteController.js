@@ -1,13 +1,14 @@
-import { Op } from 'sequelize';
 import { Compra, Comprador, Lote, Especie } from '../models/index.js';
-import { hoy, inicioFin } from '../helpers/formato.js';
+import { aInput } from '../helpers/formato.js';
+import { rangoDe, filtroFecha } from '../helpers/rango.js';
 
+// Reporte de los días dentro del rango: /reportes/diario?desde=AAAA-MM-DD&hasta=AAAA-MM-DD
+// (sin parámetros = hoy; ?fecha=AAAA-MM-DD sigue funcionando como un solo día)
 export const diario = async (req, res) => {
-  const fecha = /^\d{4}-\d{2}-\d{2}$/.test(req.query.fecha || '') ? req.query.fecha : hoy();
-  const { inicio, fin } = inicioFin(fecha);
+  const { desde, hasta } = rangoDe(req.query, true);
 
   const compras = await Compra.findAll({
-    where: { fecha: { [Op.between]: [inicio, fin] } },
+    where: filtroFecha({ desde, hasta }),
     include: [
       { model: Comprador, as: 'comprador' },
       { model: Lote, as: 'lote', include: [{ model: Especie, as: 'especies' }] },
@@ -17,12 +18,19 @@ export const diario = async (req, res) => {
 
   let totalKilos = 0;
   let totalImporte = 0;
+  const porDia = {};
   const porComprador = {};
   for (const c of compras) {
     const kilos = Number(c.lote.kilos);
     const importe = Number(c.precio_total);
     totalKilos += kilos;
     totalImporte += importe;
+
+    // Agrupa por día (en la zona horaria de la lonja); salen en orden porque las compras vienen ordenadas
+    const dia = aInput(c.fecha).slice(0, 10);
+    const d = (porDia[dia] ??= { fecha: dia, compras: [], kilos: 0, importe: 0 });
+    d.compras.push(c); d.kilos += kilos; d.importe += importe;
+
     const r = (porComprador[c.codigo_cpr] ??= {
       nombre: `${c.comprador.nombre} ${c.comprador.apellido_paterno}`, compras: 0, kilos: 0, importe: 0,
     });
@@ -30,6 +38,7 @@ export const diario = async (req, res) => {
   }
 
   res.render('reportes/diario', {
-    titulo: 'Reporte diario', fecha, compras, totalKilos, totalImporte, resumen: Object.values(porComprador),
+    titulo: 'Reporte diario', desde, hasta, compras, dias: Object.values(porDia),
+    totalKilos, totalImporte, resumen: Object.values(porComprador),
   });
 };

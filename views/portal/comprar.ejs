@@ -1,0 +1,35 @@
+<%- include('../plantillas/header') %>
+<h1 class="h3 mb-1">Comprar</h1>
+<p class="text-muted">Lotes disponibles en el catálogo activo. Pagas el precio por kilo de salida.</p>
+<% if (mensaje) { %><div class="alert alert-success"><%= mensaje %></div><% } %>
+<% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+<% if (!lotes.length) { %><div class="alert alert-info">No hay lotes disponibles por ahora.</div><% } %>
+<div class="row g-3">
+<% lotes.forEach(l => { const total = Number(l.kilos) * Number(l.precio_kilo_salida); %>
+  <div class="col-md-6 col-lg-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body">
+        <h2 class="h5">Lote #<%= l.id_lte %></h2>
+        <p class="mb-2 small text-muted">
+          <%= l.kilos %> kg · <%= l.numero_cajas %> cajas · <%= dinero(l.precio_kilo_salida) %>/kg
+        </p>
+        <% if (!l.especies.length) { %><p class="text-muted mb-0">Sin especies registradas</p><% } %>
+        <% l.especies.forEach(e => { %>
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <% if (e.imagen) { %><img src="<%= e.imagen %>" height="40" width="40" class="rounded object-fit-cover" alt=""><% } %>
+            <div><%= e.nombre %> <span class="text-muted small">(<%= e.tipo?.nombre %>)</span></div>
+          </div>
+        <% }) %>
+      </div>
+      <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+        <strong><%= dinero(total) %></strong>
+        <form action="/portal/comprar/<%= l.id_lte %>" method="POST"
+              onsubmit="return confirm('¿Comprar el lote #<%= l.id_lte %> por <%= dinero(total) %>?')">
+          <button class="btn btn-primary btn-sm" type="submit">Comprar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+<% }) %>
+</div>
+<%- include('../plantillas/footer') %>

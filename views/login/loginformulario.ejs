@@ -13,12 +13,18 @@
     <input type="email" class="form-control" id="email" name="email" maxlength="80" value="<%= persona ? persona.email : '' %>" required>
   </div>
   <div class="mb-3">
-    <label class="form-label" for="password">Password (mínimo 8 caracteres)</label>
-    <input type="password" class="form-control" id="password" name="password" minlength="8" required>
+    <label class="form-label" for="password">Contraseña (mínimo 8 caracteres)</label>
+    <div class="input-group">
+      <input type="password" class="form-control" id="password" name="password" minlength="8" required>
+      <button class="btn btn-outline-secondary" type="button" data-ver-clave="password">Mostrar</button>
+    </div>
   </div>
   <div class="mb-3">
-    <label class="form-label" for="password2">Repite el password</label>
-    <input type="password" class="form-control" id="password2" name="password2" minlength="8" required>
+    <label class="form-label" for="password2">Repite la contraseña</label>
+    <div class="input-group">
+      <input type="password" class="form-control" id="password2" name="password2" minlength="8" required>
+      <button class="btn btn-outline-secondary" type="button" data-ver-clave="password2">Mostrar</button>
+    </div>
   </div>
   <button class="btn btn-primary" type="submit">Guardar</button>
   <a class="btn btn-outline-secondary" href="/">Cancelar</a>

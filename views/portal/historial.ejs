@@ -1,0 +1,35 @@
+<%- include('../plantillas/header') %>
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+  <h1 class="h3 mb-0">Historial de compras</h1>
+  <form class="d-flex flex-wrap gap-2 align-items-center" action="/portal/historial" method="GET">
+    <label class="small text-muted" for="desde">Del</label>
+    <input type="date" class="form-control w-auto" id="desde" name="desde" value="<%= desde %>">
+    <label class="small text-muted" for="hasta">al</label>
+    <input type="date" class="form-control w-auto" id="hasta" name="hasta" value="<%= hasta %>">
+    <button class="btn btn-primary" type="submit">Filtrar</button>
+    <a class="btn btn-outline-secondary" href="/portal/historial">Limpiar</a>
+  </form>
+</div>
+<% if (mensaje) { %><div class="alert alert-success"><%= mensaje %></div><% } %>
+<p class="text-muted"><%= compras.length %> compra(s) · Total: <strong><%= dinero(total) %></strong></p>
+<div class="table-responsive">
+<table class="table table-striped align-middle bg-white shadow-sm">
+  <thead class="table-light">
+    <tr><th>Compra</th><th>Fecha</th><th>Especies</th><th>Kilos</th><th>Precio/kg</th><th>Total</th></tr>
+  </thead>
+  <tbody>
+  <% compras.forEach(c => { %>
+    <tr>
+      <td>#<%= c.id_cmp %></td>
+      <td><%= aVista(c.fecha) %></td>
+      <td><%= c.lote.especies.map(e => e.nombre).join(', ') %></td>
+      <td><%= c.lote.kilos %></td>
+      <td><%= dinero(c.precio_kilo_final) %></td>
+      <td><%= dinero(c.precio_total) %></td>
+    </tr>
+  <% }) %>
+  <% if (!compras.length) { %><tr><td colspan="6" class="text-center text-muted">Sin compras</td></tr><% } %>
+  </tbody>
+</table>
+</div>
+<%- include('../plantillas/footer') %>

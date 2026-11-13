@@ -31,7 +31,10 @@ export default {
 
   lotes: {
     modelo: Lote, pk: 'id_lte', ruta: 'lotes', titulo: 'Lotes', singular: 'lote',
-    include: [{ model: Compra, as: 'compra', required: false }],
+    include: [
+      { model: Compra, as: 'compra', required: false },
+      { model: Especie, as: 'especies', required: false },
+    ],
     // Un lote comprado no se edita: cambiaría los kilos y el reporte ya no coincidiría con el total cobrado
     puedeEditar: (r) => !r.compra,
     bloquearEdicion: async (r) => ((await Compra.findByPk(r.id_lte))
@@ -42,14 +45,16 @@ export default {
       { name: 'numero_cajas', label: 'Número de cajas', type: 'number', entero: true, required: true, min: 1, maxNum: 32767 },
       { name: 'precio_kilo_salida', label: 'Precio por kilo de salida', type: 'number', required: true, min: 0.01, maxNum: 99999999.99 },
       { name: 'fecha', label: 'Fecha y hora', type: 'datetime-local', required: true, ahora: true },
+      { name: 'activo', label: 'Catálogo activo', type: 'checkbox', texto: 'Visible para que los compradores lo compren', defecto: true },
     ],
     columnas: [
       { label: 'Lote', val: (r) => `#${r.id_lte}` },
+      { label: 'Especies', val: (r) => r.especies?.map((e) => e.nombre).join(', ') || '—' },
       { label: 'Kilos', val: (r) => r.kilos },
       { label: 'Cajas', val: (r) => r.numero_cajas },
       { label: 'Precio salida/kg', val: (r) => dinero(r.precio_kilo_salida) },
       { label: 'Fecha', val: (r) => aVista(r.fecha) },
-      { label: 'Estado', val: (r) => (r.compra ? 'Comprado' : 'Disponible') },
+      { label: 'Estado', val: (r) => (r.compra ? 'Comprado' : r.activo ? 'Disponible' : 'Inactivo') },
     ],
   },
 

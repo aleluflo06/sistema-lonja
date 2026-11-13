@@ -9,13 +9,14 @@
 <body class="bg-light">
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/inicio">Lonja Veracruz</a>
+    <a class="navbar-brand" href="<%= locals.usuario && usuario.rol !== 'admin' ? '/portal/comprar' : '/inicio' %>">Lonja Veracruz</a>
     <% if (locals.usuario) { %>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Menú">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="menu">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <% if (usuario.rol === 'admin') { %>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Compras</a>
           <ul class="dropdown-menu">
@@ -33,11 +34,14 @@
           </ul>
         </li>
         <li class="nav-item"><a class="nav-link" href="/reportes/diario">Reporte diario</a></li>
-        <% if (usuario.rol === 'admin') { %>
         <li class="nav-item"><a class="nav-link" href="/usuarios">Usuarios</a></li>
+        <% } else { %>
+        <li class="nav-item"><a class="nav-link" href="/portal/comprar">Comprar</a></li>
+        <li class="nav-item"><a class="nav-link" href="/portal/historial">Historial de compras</a></li>
+        <li class="nav-item"><a class="nav-link" href="/portal/perfil">Mis datos</a></li>
         <% } %>
       </ul>
-      <span class="navbar-text me-3"><%= usuario.nombre %> (<%= usuario.rol %>)</span>
+      <span class="navbar-text me-3"><%= usuario.nombre %> (<%= usuario.rol === 'admin' ? 'admin' : 'comprador' %>)</span>
       <a class="btn btn-outline-light btn-sm" href="/cerrarsesion">Cerrar sesión</a>
     </div>
     <% } %>

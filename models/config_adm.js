@@ -19,7 +19,6 @@ async function createInitialAdmin() {
       password: ADMIN_PASSWORD,
       rol: 'admin',
       confirmar: true,
-      autorizado: true,
     });
     console.log('Usuario administrador inicial creado exitosamente.');
   } catch (error) {

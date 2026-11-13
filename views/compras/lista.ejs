@@ -3,8 +3,20 @@
   <h1 class="h3 mb-0">Compras</h1>
   <a class="btn btn-primary" href="/compras/crear">Registrar compra</a>
 </div>
+<form class="d-flex flex-wrap gap-2 align-items-center mb-3" action="/compras" method="GET">
+  <label class="small text-muted" for="desde">Del</label>
+  <input type="date" class="form-control w-auto" id="desde" name="desde" value="<%= desde %>">
+  <label class="small text-muted" for="hasta">al</label>
+  <input type="date" class="form-control w-auto" id="hasta" name="hasta" value="<%= hasta %>">
+  <button class="btn btn-primary" type="submit">Filtrar</button>
+  <a class="btn btn-outline-secondary" href="/compras">Limpiar</a>
+  <% if (desde || hasta) { %>
+  <a class="btn btn-outline-primary" href="/reportes/diario?desde=<%= desde %>&hasta=<%= hasta %>">Ver reporte de este rango</a>
+  <% } %>
+</form>
 <% if (mensaje) { %><div class="alert alert-success"><%= mensaje %></div><% } %>
 <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+<p class="text-muted"><%= compras.length %> compra(s) · Total: <strong><%= dinero(total) %></strong></p>
 <div class="table-responsive">
 <table class="table table-striped align-middle bg-white shadow-sm">
   <thead class="table-light">

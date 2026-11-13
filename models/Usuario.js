@@ -11,7 +11,6 @@ const Usuario = db.define(
     password: { type: DataTypes.STRING(100), allowNull: false },
     rol: { type: DataTypes.STRING(15), allowNull: false, defaultValue: 'usuario' }, // admin | usuario
     confirmar: { type: DataTypes.BOOLEAN, defaultValue: false }, // correo confirmado
-    autorizado: { type: DataTypes.BOOLEAN, defaultValue: false }, // autorizado por el administrador
     token: { type: DataTypes.STRING(64), allowNull: true },
   },
   {

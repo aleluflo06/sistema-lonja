@@ -44,7 +44,7 @@ export const registrologin = async (req, res) => {
   res.render('login/confirmacion', {
     titulo: 'Registro',
     pagina: 'Revisa tu correo',
-    mensaje: 'Te enviamos un enlace para confirmar tu cuenta. Después, un administrador deberá autorizar tu acceso.',
+    mensaje: 'Te enviamos un enlace para confirmar tu cuenta. Al confirmarlo ya podrás iniciar sesión.',
     enlace: '/',
   });
 };
@@ -66,7 +66,7 @@ export const confirmarIncripcionEnlace = async (req, res) => {
   res.render('login/confirmacion', {
     titulo: 'Confirmación',
     pagina: 'Cuenta confirmada',
-    mensaje: 'Tu correo fue confirmado. Un administrador debe autorizar tu acceso antes de que puedas entrar.',
+    mensaje: 'Tu correo fue confirmado. Ya puedes iniciar sesión.',
     enlace: '/',
   });
 };
@@ -84,9 +84,6 @@ export const credenciales = async (req, res) => {
   if (!us.confirmar) {
     return vistaLogin(res, [{ msg: 'Tu cuenta no tiene confirmación, revisa tu correo' }], 'Acceso denegado');
   }
-  if (!us.autorizado) {
-    return vistaLogin(res, [{ msg: 'Un administrador aún no autoriza tu acceso' }], 'Acceso denegado');
-  }
 
   const token = JWTGenera({ id: us.id, nombre: us.nombre, rol: us.rol });
   return res
@@ -100,6 +97,8 @@ export const credenciales = async (req, res) => {
 };
 
 export const principal = async (req, res) => {
+    // Los compradores no ven el panel de administración
+  if (req.usuario.rol !== 'admin') return res.redirect('/portal/comprar');
   const { inicio, fin } = inicioFin(hoy());
   const comprasHoy = await Compra.findAll({ where: { fecha: { [Op.between]: [inicio, fin] } } });
   const lotesDisponibles = await Lote.count({

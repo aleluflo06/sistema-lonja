@@ -1,6 +1,7 @@
 import { body, validationResult } from 'express-validator';
 import { Compra, Lote, Comprador, Especie } from '../models/index.js';
 import { desdeInput } from '../helpers/formato.js';
+import { rangoDe, filtroFecha } from '../helpers/rango.js';
 import { mensajeError } from './crudFactory.js';
 
 export const reglasCompra = [
@@ -25,12 +26,16 @@ const datosFormulario = async () => {
 };
 
 export const lista = async (req, res) => {
+  const { desde, hasta } = rangoDe(req.query); // rango opcional: ?desde=AAAA-MM-DD&hasta=AAAA-MM-DD
   const compras = await Compra.findAll({
+    where: filtroFecha({ desde, hasta }),
     include: [{ model: Comprador, as: 'comprador' }, { model: Lote, as: 'lote' }],
     order: [['fecha', 'DESC']],
   });
+  const total = compras.reduce((s, c) => s + Number(c.precio_total), 0);
   res.render('compras/lista', {
-    titulo: 'Compras', compras, mensaje: req.query.mensaje || null, error: req.query.error || null,
+    titulo: 'Compras', compras, total, desde: desde || '', hasta: hasta || '',
+    mensaje: req.query.mensaje || null, error: req.query.error || null,
   });
 };
 

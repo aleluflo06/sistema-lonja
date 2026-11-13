@@ -19,6 +19,12 @@
     <% } else if (c.type === 'file') { %>
       <input type="file" class="form-control" id="<%= c.name %>" name="<%= c.name %>" accept="image/*">
       <% if (val) { %><img src="<%= val %>" height="60" class="mt-2 rounded" alt=""><% } %>
+    <% } else if (c.type === 'checkbox') { %>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="<%= c.name %>" name="<%= c.name %>" value="on"
+               <%= (val === true || val === 1 || val === '1' || val === 'on') ? 'checked' : '' %>>
+        <label class="form-check-label" for="<%= c.name %>"><%= c.texto || c.label %></label>
+      </div>
     <% } else if (c.type === 'datetime-local') { %>
       <input type="datetime-local" class="form-control" id="<%= c.name %>" name="<%= c.name %>" value="<%= aInput(val) %>" <%= c.required ? 'required' : '' %>>
     <% } else if (c.type === 'number') { %>

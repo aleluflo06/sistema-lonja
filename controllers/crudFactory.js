@@ -14,7 +14,7 @@ const quitarArchivo = (ruta) => {
 
 // Reglas de validación generadas a partir de la definición de campos
 export const reglas = (campos) =>
-  campos.filter((c) => c.type !== 'file').map((c) => {
+  campos.filter((c) => c.type !== 'file' && c.type !== 'checkbox').map((c) => {
     let v = body(c.name).trim();
     if (c.required) v = v.notEmpty().withMessage(`${c.label} es obligatorio`).bail();
     else v = v.optional({ values: 'falsy' });
@@ -49,6 +49,7 @@ const normalizar = (campos, bodyReq, file) => {
   const d = {};
   for (const c of campos) {
     if (c.type === 'file') { if (file) d[c.name] = '/uploads/' + file.filename; continue; }
+    if (c.type === 'checkbox') { d[c.name] = bodyReq[c.name] === 'on'; continue; }
     const v = bodyReq[c.name];
     if (v === undefined || v === '') d[c.name] = null;
     else d[c.name] = c.type === 'datetime-local' ? desdeInput(v) : v;
@@ -74,7 +75,10 @@ export default function crearCatalogo(cfg) {
 
   const verCrear = (req, res) => {
     const registro = {};
-    campos.forEach((c) => { if (c.ahora) registro[c.name] = new Date(); });
+    campos.forEach((c) => {
+      if (c.ahora) registro[c.name] = new Date();
+      if (c.defecto !== undefined) registro[c.name] = c.defecto;
+    });
     return form(res, { registro, action: `/${ruta}` });
   };
 

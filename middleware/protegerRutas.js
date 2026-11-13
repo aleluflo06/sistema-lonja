@@ -9,7 +9,7 @@ const rutaProteger = async (req, res, next) => {
   try {
     const decoded = jwt.verify(_token, process.env.SC_JWT);
     const usuario = await Usuario.scope('sinClave').findByPk(decoded.id);
-    if (!usuario || !usuario.autorizado) return res.clearCookie('_token').redirect('/');
+    if (!usuario || !usuario.confirmar) return res.clearCookie('_token').redirect('/');
     req.usuario = usuario;
     res.locals.usuario = usuario;
     return next();

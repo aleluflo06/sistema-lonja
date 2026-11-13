@@ -1,5 +1,16 @@
   </div></div>
   <p class="text-center text-muted mt-3"><small>Lonja Veracruz 2026</small></p>
 </main>
+<script>
+  // Botón "Mostrar / Ocultar" de las contraseñas
+  document.querySelectorAll('[data-ver-clave]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const campo = document.getElementById(btn.dataset.verClave);
+      const ver = campo.type === 'password';
+      campo.type = ver ? 'text' : 'password';
+      btn.textContent = ver ? 'Ocultar' : 'Mostrar';
+    });
+  });
+</script>
 </body>
 </html>

@@ -12,11 +12,13 @@ import catalogos from './config/catalogos.js';
 import { aInput, aVista, dinero } from './helpers/formato.js';
 
 import rutaProteger from './middleware/protegerRutas.js';
+import soloAdmin from './middleware/soloAdmin.js';
 import router_login from './routes/login_router.js';
 import catalogoRouter from './routes/catalogo_router.js';
 import router_compras from './routes/compra_router.js';
 import router_reportes from './routes/reporte_router.js';
 import router_usuarios from './routes/usuario_router.js';
+import router_portal from './routes/portal_router.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -47,11 +49,12 @@ app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules', 'boots
 // Routing
 app.use('/', router_login);
 for (const cfg of Object.values(catalogos)) {
-  app.use(`/${cfg.ruta}`, rutaProteger, catalogoRouter(cfg));
+  app.use(`/${cfg.ruta}`, rutaProteger, soloAdmin, catalogoRouter(cfg));
 }
-app.use('/compras', rutaProteger, router_compras);
-app.use('/reportes', rutaProteger, router_reportes);
+app.use('/compras', rutaProteger, soloAdmin, router_compras);
+app.use('/reportes', rutaProteger, soloAdmin, router_reportes);
 app.use('/usuarios', rutaProteger, router_usuarios);
+app.use('/portal', rutaProteger, router_portal);
 
 // 404 y errores
 app.use((req, res) => res.status(404).render('error', { titulo: 'No encontrado', mensaje: 'La página no existe.' }));

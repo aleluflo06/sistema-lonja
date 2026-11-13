@@ -7,6 +7,7 @@ const Lote = db.define('Lote', {
   numero_cajas: { type: DataTypes.SMALLINT, allowNull: false },
   precio_kilo_salida: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
   fecha: { type: DataTypes.DATE, allowNull: false, defaultValue: DataTypes.NOW },
+  activo: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true }, // visible para compradores
 }, { tableName: 'lote' });
 
 export default Lote;
