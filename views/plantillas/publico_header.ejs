@@ -4,8 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= locals.titulo ? titulo + ' | ' : '' %>Lonja Veracruz</title>
-  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+  <%- include('estilos') %>
 </head>
-<body class="bg-light">
-<main class="container" style="max-width:480px">
-  <div class="card shadow-sm mt-5"><div class="card-body p-4">
+<body>
+<header class="portada">
+  <span class="navbar-brand"><%- include('logo') %>Lonja Veracruz</span>
+</header>
+<main class="container publico-main">
+  <div class="card shadow-sm"><div class="card-body p-4">

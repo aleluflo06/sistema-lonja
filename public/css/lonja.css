@@ -1,0 +1,86 @@
+/* Lonja Veracruz: azul marino (encabezado) + crema (cuerpo). Sobre Bootstrap 5.3 */
+:root{
+  --mar:#0A2342;--mar-2:#12355F;--agua:#1F6E94;--espuma:#BFE3E0;--bronce:#C8A45C;
+  --crema:#F7F1E1;--papel:#FFFCF4;--arena:#E3D8BC;--tinta:#11243B;--apagado:#5E6C7D;
+  --ola:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 14'%3E%3Cpath d='M0 0H80V5C70 11 50 11 40 5C30-1 10-1 0 5Z' fill='%230A2342'/%3E%3C/svg%3E");
+  --bs-body-bg:var(--crema);--bs-body-color:var(--tinta);
+  --bs-body-font-family:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --bs-secondary-color:var(--apagado);--bs-border-color:var(--arena);
+  --bs-primary:#12355F;--bs-primary-rgb:18,53,95;
+  --bs-link-color:#1F6E94;--bs-link-color-rgb:31,110,148;--bs-link-hover-color:#0A2342;
+}
+body{background:var(--crema);min-height:100vh;display:flex;flex-direction:column}
+main{flex:1 0 auto}
+h1,h2,h3,h4,h5,h6{font-family:'Bricolage Grotesque','Figtree',system-ui,sans-serif;font-weight:650;letter-spacing:-.01em;color:var(--mar)}
+:focus-visible{outline:2px solid var(--agua);outline-offset:2px}
+
+/* Encabezado marino con borde de ola */
+.navbar-lonja{background:var(--mar);position:relative;z-index:1030;padding:.7rem 0;
+  --bs-navbar-color:rgba(255,255,255,.8);--bs-navbar-hover-color:#fff;--bs-navbar-active-color:#fff;
+  --bs-navbar-brand-color:#fff;--bs-navbar-brand-hover-color:#fff}
+.navbar-lonja::after,.portada::after{content:"";position:absolute;left:0;right:0;top:100%;height:14px;
+  background:var(--ola) repeat-x 0 0/80px 14px;pointer-events:none}
+.navbar-brand{display:inline-flex;align-items:center;gap:.55rem;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.3rem}
+.navbar-brand svg{width:30px;height:30px;color:var(--espuma)}
+.navbar-lonja .nav-link{font-weight:500}
+.navbar-lonja .nav-link.active{box-shadow:inset 0 -2px var(--bronce)}
+.navbar-text{color:var(--espuma)!important;font-size:.9rem}
+.dropdown-menu{--bs-dropdown-bg:var(--papel);--bs-dropdown-border-color:var(--arena);--bs-dropdown-link-color:var(--tinta);
+  --bs-dropdown-link-hover-bg:#E6F1F0;--bs-dropdown-link-active-bg:var(--mar-2);border-radius:10px;box-shadow:0 12px 24px -12px rgba(10,35,66,.4)}
+.dropdown-item.active{color:#fff}
+.pie{text-align:center;color:var(--apagado);padding:1.2rem 0;border-top:1px solid var(--arena);margin-top:2rem}
+
+/* Botones */
+.btn{border-radius:8px;font-weight:600}
+.btn-primary{--bs-btn-bg:var(--mar-2);--bs-btn-border-color:var(--mar-2);--bs-btn-hover-bg:var(--mar);--bs-btn-hover-border-color:var(--mar);
+  --bs-btn-active-bg:var(--mar);--bs-btn-active-border-color:var(--mar);--bs-btn-disabled-bg:var(--mar-2);--bs-btn-disabled-border-color:var(--mar-2);--bs-btn-focus-shadow-rgb:31,110,148}
+.btn-outline-primary{--bs-btn-color:var(--mar-2);--bs-btn-border-color:var(--mar-2);--bs-btn-hover-bg:var(--mar-2);--bs-btn-hover-border-color:var(--mar-2);
+  --bs-btn-active-bg:var(--mar);--bs-btn-active-border-color:var(--mar);--bs-btn-focus-shadow-rgb:31,110,148}
+.btn-outline-secondary{--bs-btn-color:var(--apagado);--bs-btn-border-color:#CFC3A5;--bs-btn-hover-bg:#EADFC4;--bs-btn-hover-border-color:#CFC3A5;
+  --bs-btn-hover-color:var(--tinta);--bs-btn-active-bg:#E3D8BC;--bs-btn-active-border-color:#CFC3A5;--bs-btn-active-color:var(--tinta)}
+.btn-outline-success{--bs-btn-color:#16705F;--bs-btn-border-color:#16705F;--bs-btn-hover-bg:#16705F;--bs-btn-hover-border-color:#16705F;--bs-btn-active-bg:#0F5A4C;--bs-btn-active-border-color:#0F5A4C}
+.btn-outline-danger{--bs-btn-color:#A33A3A;--bs-btn-border-color:#D9A9A5;--bs-btn-hover-bg:#A33A3A;--bs-btn-hover-border-color:#A33A3A;--bs-btn-active-bg:#862E2E;--bs-btn-active-border-color:#862E2E}
+
+/* Superficies */
+.card{--bs-card-bg:var(--papel);--bs-card-border-color:var(--arena);--bs-card-cap-bg:var(--papel);border-radius:12px}
+.card-footer{background:var(--papel);border-top-color:var(--arena)}
+.shadow-sm{box-shadow:0 1px 0 rgba(10,35,66,.04),0 8px 20px -14px rgba(10,35,66,.35)!important}
+.resumen{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--arena);
+  border:1px solid var(--arena);border-radius:12px;overflow:hidden}
+.resumen>div{background:var(--papel);padding:1.1rem 1.4rem}
+.resumen small{display:block;color:var(--apagado)}
+.resumen strong{font-family:'Bricolage Grotesque',sans-serif;font-size:1.9rem;font-weight:650;color:var(--mar);font-variant-numeric:tabular-nums}
+
+/* Tablas */
+.table{--bs-table-bg:var(--papel);--bs-table-color:var(--tinta);--bs-table-striped-bg:#F9F3E3;--bs-table-hover-bg:#EAF3F1;
+  --bs-table-border-color:var(--arena);margin-bottom:0;font-variant-numeric:tabular-nums}
+.table-light{--bs-table-bg:#DCE7F0;--bs-table-color:var(--mar);--bs-table-border-color:#C2D3E2}
+.table th{font-weight:650;white-space:nowrap}
+.table-responsive{border:1px solid var(--arena);border-radius:12px;background:var(--papel)}
+.badge-estado{display:inline-block;padding:.15rem .6rem;border-radius:99px;font-size:.82rem;font-weight:600;background:#E3EDF6;color:var(--mar-2)}
+.badge-estado.ok{background:#DDF0E8;color:#14573F}.badge-estado.off{background:#EFE8D4;color:#6B5F3C}
+
+/* Formularios */
+.form-label{font-weight:600;font-size:.92rem}
+.form-control,.form-select{background-color:#FFFEF9;border-color:#D6CAAA;border-radius:8px;color:var(--tinta)}
+.form-control:focus,.form-select:focus{background-color:#fff;border-color:var(--agua);box-shadow:0 0 0 .22rem rgba(31,110,148,.2)}
+.form-check-input:checked{background-color:var(--mar-2);border-color:var(--mar-2)}
+.form-text{color:var(--apagado)}
+
+/* Alertas */
+.alert{border-radius:10px;border-left-width:4px}
+.alert-success{--bs-alert-bg:#E4F2EC;--bs-alert-border-color:#B7DCCB;--bs-alert-color:#17503B;border-left-color:#2E8B6A}
+.alert-danger{--bs-alert-bg:#F8E7E4;--bs-alert-border-color:#E6BDB7;--bs-alert-color:#7A2620;border-left-color:#B8433B}
+.alert-info,.alert-primary{--bs-alert-bg:#E3EDF6;--bs-alert-border-color:#B9D0E4;--bs-alert-color:#12355F;border-left-color:var(--agua)}
+.alert-warning{--bs-alert-bg:#F8EFD4;--bs-alert-border-color:#E5D194;--bs-alert-color:#6B520F;border-left-color:var(--bronce)}
+
+/* Páginas públicas (login, registro) */
+.portada{background:var(--mar);color:#fff;text-align:center;padding:2.2rem 1rem 5.5rem;position:relative}
+.portada .navbar-brand{font-size:1.6rem;color:#fff}
+.portada p{color:var(--espuma);margin:.4rem 0 0}
+.publico-main{max-width:480px;margin-top:-3.2rem;position:relative;z-index:2;padding-bottom:1rem}
+
+@media print{
+  .navbar-lonja,.pie,.portada,.btn{display:none!important}
+  body{background:#fff}.table-responsive,.resumen{border-color:#ccc}
+}

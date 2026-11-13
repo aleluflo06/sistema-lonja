@@ -17,6 +17,7 @@
         <td>
           <% if (c.tipo === 'img') { %>
             <% if (v) { %><img src="<%= v %>" height="40" class="rounded" alt=""><% } %>
+          <% } else if (c.label === 'Estado') { %><span class="badge-estado <%= v === 'Disponible' ? 'ok' : v === 'Inactivo' ? 'off' : '' %>"><%= v %></span>
           <% } else { %><%= v %><% } %>
         </td>
       <% }) %>

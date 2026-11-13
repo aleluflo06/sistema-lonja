@@ -9,7 +9,7 @@
   <% usuarios.forEach(u => { %>
     <tr>
       <td><%= u.id %></td><td><%= u.nombre %></td><td><%= u.email %></td><td><%= u.rol %></td>
-      <td><%= u.confirmar ? 'Sí' : 'No' %></td>
+      <td><span class="badge-estado <%= u.confirmar ? 'ok' : 'off' %>"><%= u.confirmar ? 'Sí' : 'No' %></span></td>
       <td class="text-nowrap">
         <% if (u.id !== usuario.id) { %>
         <form action="/usuarios/<%= u.id %>?_method=DELETE" method="POST" class="d-inline" onsubmit="return confirm('¿Eliminar este usuario?')">

@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= locals.titulo ? titulo + ' | ' : '' %>Lonja Veracruz</title>
-  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+  <%- include('estilos') %>
 </head>
 <body class="bg-light">
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-lonja">
   <div class="container-fluid">
-    <a class="navbar-brand" href="<%= locals.usuario && usuario.rol !== 'admin' ? '/portal/comprar' : '/inicio' %>">Lonja Veracruz</a>
+    <a class="navbar-brand" href="..."><%- include('logo') %>Lonja Veracruz</a><nav class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
     <% if (locals.usuario) { %>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Menú">
       <span class="navbar-toggler-icon"></span>
@@ -41,7 +41,7 @@
         <li class="nav-item"><a class="nav-link" href="/portal/perfil">Mis datos</a></li>
         <% } %>
       </ul>
-      <span class="navbar-text me-3"><%= usuario.nombre %> (<%= usuario.rol === 'admin' ? 'admin' : 'comprador' %>)</span>
+      <span class="navbar-text me-3"><%= usuario.nombre %></span>
       <a class="btn btn-outline-light btn-sm" href="/cerrarsesion">Cerrar sesión</a>
     </div>
     <% } %>

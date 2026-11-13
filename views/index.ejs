@@ -1,12 +1,10 @@
 <%- include('plantillas/header') %>
-<h1 class="h3 mb-4">Panel principal</h1>
-<div class="row g-3 mb-4">
-  <div class="col-md-4"><div class="card shadow-sm"><div class="card-body">
-    <div class="text-muted">Compras de hoy</div><div class="fs-2"><%= numCompras %></div></div></div></div>
-  <div class="col-md-4"><div class="card shadow-sm"><div class="card-body">
-    <div class="text-muted">Importe de hoy</div><div class="fs-2"><%= dinero(totalHoy) %></div></div></div></div>
-  <div class="col-md-4"><div class="card shadow-sm"><div class="card-body">
-    <div class="text-muted">Lotes disponibles</div><div class="fs-2"><%= lotesDisponibles %></div></div></div></div>
+<h1 class="h3 mb-1">Panel principal</h1>
+<p class="text-muted mb-4"><%= new Date().toLocaleDateString('es-MX', { timeZone: process.env.ZONA_IANA || 'America/Mexico_City', dateStyle: 'full' }) %></p>
+<div class="resumen mb-4">
+  <div><small>Compras de hoy</small><strong><%= numCompras %></strong></div>
+  <div><small>Importe de hoy</small><strong><%= dinero(totalHoy) %></strong></div>
+  <div><small>Lotes disponibles</small><strong><%= lotesDisponibles %></strong></div>
 </div>
 <a class="btn btn-primary" href="/compras/crear">Registrar compra</a>
 <a class="btn btn-outline-primary" href="/reportes/diario">Ver reporte diario</a>

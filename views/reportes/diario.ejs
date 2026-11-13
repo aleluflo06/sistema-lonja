@@ -14,10 +14,10 @@
   <% if (desde === hasta) { %>Fecha: <strong><%= desde %></strong>
   <% } else { %>Rango: <strong><%= desde %></strong> al <strong><%= hasta %></strong><% } %>
 </p>
-<div class="row g-3 mb-4">
-  <div class="col-md-4"><div class="card"><div class="card-body"><div class="text-muted">Compras</div><div class="fs-3"><%= compras.length %></div></div></div></div>
-  <div class="col-md-4"><div class="card"><div class="card-body"><div class="text-muted">Kilos comprados</div><div class="fs-3"><%= totalKilos.toFixed(2) %></div></div></div></div>
-  <div class="col-md-4"><div class="card"><div class="card-body"><div class="text-muted">Importe total</div><div class="fs-3"><%= dinero(totalImporte) %></div></div></div></div>
+<div class="resumen mb-4">
+  <div><small>Compras</small><strong><%= compras.length %></strong></div>
+  <div><small>Kilos comprados</small><strong><%= totalKilos.toFixed(2) %></strong></div>
+  <div><small>Importe total</small><strong><%= dinero(totalImporte) %></strong></div>
 </div>
 
 <% if (!dias.length) { %>
@@ -53,13 +53,13 @@
 
 <% if (resumen.length) { %>
 <h2 class="h5 mt-4">Resumen por comprador (todo el rango)</h2>
-<table class="table table-sm bg-white shadow-sm" style="max-width:640px">
+<div class="table-responsive" style="max-width:640px"><table class="table table-sm">
   <thead class="table-light"><tr><th>Comprador</th><th>Compras</th><th>Kilos</th><th>Importe</th></tr></thead>
   <tbody>
   <% resumen.forEach(r => { %>
     <tr><td><%= r.nombre %></td><td><%= r.compras %></td><td><%= r.kilos.toFixed(2) %></td><td><%= dinero(r.importe) %></td></tr>
   <% }) %>
   </tbody>
-</table>
+</table><table class="table table-sm bg-white shadow-sm" style="max-width:640px"></table></div>
 <% } %>
 <%- include('../plantillas/footer') %>

@@ -1,7 +1,19 @@
 </main>
-<footer class="container text-center text-muted py-3">
-  <small>Lonja Veracruz 2026</small>
-</footer>
+<footer class="pie container"><small>Lonja Veracruz 2026</small></footer>
 <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Marca en el menú la sección actual (gana el enlace más específico)
+  (() => {
+    const ruta = location.pathname.replace(/\/$/, '') || '/';
+    let mejor = null;
+    document.querySelectorAll('#menu a[href^="/"]').forEach((a) => {
+      const h = a.getAttribute('href');
+      if ((ruta === h || ruta.startsWith(h + '/')) && (!mejor || h.length > mejor.getAttribute('href').length)) mejor = a;
+    });
+    if (!mejor) return;
+    mejor.classList.add('active');
+    mejor.closest('.dropdown')?.querySelector('.dropdown-toggle')?.classList.add('active');
+  })();
+</script>
 </body>
 </html>
